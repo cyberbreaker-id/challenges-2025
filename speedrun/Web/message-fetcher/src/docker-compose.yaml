@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  message-fetcher:
+    build: .
+    restart: on-failure
+    networks:
+      - traefik
+    volumes:
+      - ./flag.txt:/flag.txt:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.constraint-label=ctf-chall"
+      - "traefik.docker.network=traefik"
+      - "traefik.http.routers.message-fetcher.rule=Host(`message-fetcher.cbc2025.cloud`)"
+      - "traefik.http.routers.message-fetcher.entrypoints=http"
+      - "traefik.http.routers.message-fetcher.middlewares=https-redirect@file"
+      - "traefik.http.routers.message-fetcher-https.rule=Host(`message-fetcher.cbc2025.cloud`)"
+      - "traefik.http.routers.message-fetcher-https.entrypoints=https"
+      - "traefik.http.routers.message-fetcher-https.tls=true"
+      - "traefik.http.routers.message-fetcher-https.tls.certresolver=le"
+      - "traefik.http.services.message-fetcher-https.loadbalancer.server.port=80"
+
+networks:
+  traefik:
+    external: true

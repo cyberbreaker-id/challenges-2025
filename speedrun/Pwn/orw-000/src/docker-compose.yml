@@ -1,0 +1,17 @@
+services:
+  orw-000:
+    build: .
+    restart: on-failure
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.tcp.routers.orw-000.rule=HostSNI(`orw-000.cbc2025.cloud`)"
+      - "traefik.tcp.routers.orw-000.tls=true"
+      - "traefik.tcp.services.orw-000.loadbalancer.server.port=9101"
+    # ports:
+    #   - "9101:9101"
+
+networks:
+  traefik:
+    external: true

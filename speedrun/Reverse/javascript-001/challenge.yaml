@@ -1,0 +1,17 @@
+
+name: "javascript-001"
+author: "vidner"
+description: |
+  Cool Bendera Checker
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{c571e25978f76ee76da39af146c32314}"
+
+provide: "./dist"
+
+scripts:
+    start: cd src && docker compose -p {{.slug}} up --build -d
+    stop: cd src && docker compose -p {{.slug}} down --volumes

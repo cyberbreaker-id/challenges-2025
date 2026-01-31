@@ -1,0 +1,3 @@
+```
+${open('/flag.txt').read()}
+```

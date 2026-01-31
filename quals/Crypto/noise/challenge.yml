@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/dimasma0305/ctfify/refs/heads/master/function/template/templates/others/ctf-template/.gzctf/challenge.schema.yaml
+
+name: "Noise"
+author: "amseels"
+description: |
+  I find a way to hide and encrypt my message in the noise!
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{EC89E0193D3D44B25EA}"
+
+provide: "./dist"

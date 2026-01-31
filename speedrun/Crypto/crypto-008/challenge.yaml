@@ -1,0 +1,13 @@
+
+name: "crypto-008"
+author: "ryuk"
+description: |
+  crypto-008
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{f364edcd6a361bf9eb91ccfd520e6ddf}"
+
+provide: "./dist"

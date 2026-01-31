@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  notes_graveyard_app:
+    build: ./app
+    container_name: notes_graveyard_app
+    volumes:
+      - ./flag.txt:/flag.txt:ro
+    environment:
+      - FLASK_ENV=production
+      - FLASK_DEBUG=0
+    restart: unless-stopped
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.notes_graveyard_app.rule=Host(`notes-graveyard.cbc2025.cloud`)"
+      - "traefik.http.routers.notes_graveyard_app.tls=true"
+      - "traefik.http.services.notes_graveyard_app.loadbalancer.server.port=3002"
+networks:
+  traefik:
+    external: true

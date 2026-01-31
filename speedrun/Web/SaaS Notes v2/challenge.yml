@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/dimasma0305/ctfify/refs/heads/master/function/template/templates/others/ctf-template/.gzctf/challenge.schema.yaml
+
+name: "SaaS Notes v2.0"
+author: "nyxmare"
+description: |
+  A new SaaS Notes version!
+  URL: https://saas-notes-v2.cbc2025.cloud/
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{congrats_for_solving_saas_notes_v2}"
+
+
+provide: "./dist"
+
+scripts:
+    start: cd src && docker compose -p {{.slug}} up --build -d
+    stop: cd src && docker compose -p {{.slug}} down --volumes

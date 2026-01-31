@@ -1,0 +1,21 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/dimasma0305/ctfify/refs/heads/master/function/template/templates/others/ctf-template/.gzctf/challenge.schema.yaml
+
+name: "simple-notes"
+author: "nyxmare"
+description: |
+  A Simple Notes!
+  Cookie is at http://proxy/
+  URL: https://simple-notes.cbc2025.cloud/
+  BOT: https://simple-notes.cbc2025.cloud/report
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{a_super_simple_easy_notes}"
+
+provide: "./dist"
+
+scripts:
+    start: cd src && docker compose -p {{.slug}} up --build -d
+    stop: cd src && docker compose -p {{.slug}} down --volumes

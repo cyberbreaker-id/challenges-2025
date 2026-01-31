@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/dimasma0305/ctfify/refs/heads/master/function/template/templates/others/ctf-template/.gzctf/challenge.schema.yaml
+
+name: "elixir-000"
+author: "vidner"
+description: |
+  Cursed Beam Crackme
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{c571e25978f76ee76da39af146c32314}"
+
+provide: "./dist"

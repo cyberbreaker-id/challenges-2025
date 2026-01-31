@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/dimasma0305/ctfify/refs/heads/master/function/template/templates/others/ctf-template/.gzctf/challenge.schema.yaml
+
+name: "echo-000"
+author: "zafirr"
+description: |
+  bash 
+
+  Connect: ncat --ssl bash-death.cbc2025.cloud 443
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{speed_injection_leet_77c11ab}"
+
+provide: "./dist"
+
+scripts:
+  start: cd src && docker compose -p {{.slug}} up --build --force-recreate -d
+  stop: cd src && docker compose -p {{.slug}} down --volumes

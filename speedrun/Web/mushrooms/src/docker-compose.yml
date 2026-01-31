@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  mushroomsspring:
+    build: .
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - ADMIN_PASSWORD=supersecretpassword_69f3c9e3046102a159cc56ef3d48e24
+      - FLAG=CBC{all_the_mushrooms_surround_me}
+    networks:
+      - internal
+    restart: unless-stopped
+
+  mushroomsnginx:
+    image: nginx:alpine
+    depends_on:
+      - mushroomsspring
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      - internal
+      - traefik
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.constraint-label=ctf-chall"
+      - "traefik.docker.network=traefik"
+      - "traefik.http.routers.mushrooms.rule=Host(`mushrooms.cbc2025.cloud`)"
+      - "traefik.http.routers.mushrooms.entrypoints=http"
+      - "traefik.http.routers.mushrooms.middlewares=https-redirect@file"
+      - "traefik.http.routers.mushrooms-https.rule=Host(`mushrooms.cbc2025.cloud`)"
+      - "traefik.http.routers.mushrooms-https.entrypoints=https"
+      - "traefik.http.routers.mushrooms-https.tls=true"
+      - "traefik.http.routers.mushrooms-https.tls.certresolver=le"
+      - "traefik.http.services.mushrooms-https.loadbalancer.server.port=80"
+
+networks:
+  internal:
+  traefik:
+    external: true

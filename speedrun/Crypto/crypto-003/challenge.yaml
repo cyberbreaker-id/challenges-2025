@@ -1,0 +1,13 @@
+
+name: "crypto-003"
+author: "ryuk"
+description: |
+  crypto-003
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{345y_RSA_4_y0u_75bca4ecd81a}"
+
+provide: "./dist"

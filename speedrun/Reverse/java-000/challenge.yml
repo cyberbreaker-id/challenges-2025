@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/dimasma0305/ctfify/refs/heads/master/function/template/templates/others/ctf-template/.gzctf/challenge.schema.yaml
+
+name: "java-000"
+author: "zafirr"
+description: |
+  I love jawa language 
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{1048840794624136146456260272312098311007367935727105708103833326418620587219077403791627000915209376172976011261792815612093722456570209822952503906432116}"
+
+provide: "./dist"

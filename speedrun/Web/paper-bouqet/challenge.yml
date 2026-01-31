@@ -1,0 +1,19 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/dimasma0305/ctfify/refs/heads/master/function/template/templates/others/ctf-template/.gzctf/challenge.schema.yaml
+
+name: "Paper Bouqet"
+author: "nyxmare"
+description: |
+  A Paper bouqet
+  URL: https://paper-bouqet.cbc2025.cloud/
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{a_paper_bouqet_for_u}"
+
+provide: "./dist"
+
+scripts:
+    start: cd src && docker compose -p {{.slug}} up --build -d
+    stop: cd src && docker compose -p {{.slug}} down --volumes

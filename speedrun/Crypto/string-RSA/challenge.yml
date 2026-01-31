@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/dimasma0305/ctfify/refs/heads/master/function/template/templates/others/ctf-template/.gzctf/challenge.schema.yaml
+
+name: "String RSA"
+author: "amseels"
+description: |
+  
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{de5e15ce38751ee38419fb075bc1e601}"
+
+provide: "./dist"

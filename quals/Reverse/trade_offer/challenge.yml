@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/dimasma0305/ctfify/refs/heads/master/function/template/templates/others/ctf-template/.gzctf/challenge.schema.yaml
+
+name: "Trade Offer"
+author: "ryuk"
+description: |
+  Give me the flag, and I'll give you points
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{l3t5_jump_un7il_w3_g0t_th3_fl4g_499325cf955}"
+
+provide: "./dist"

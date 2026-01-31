@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  springthiefapp:
+    build: .
+    container_name: spring-thief-app
+    volumes:
+      - ./flag.txt:/flag.txt:ro
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.spring_thief.rule=Host(`spring-thief.cbc2025.cloud`)"
+      - "traefik.http.routers.spring_thief.tls=true"
+      - "traefik.http.services.spring_thief.loadbalancer.server.port=8080"
+networks:
+  traefik:
+    external: true

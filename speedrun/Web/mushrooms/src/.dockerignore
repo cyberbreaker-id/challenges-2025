@@ -1,0 +1,12 @@
+target/
+logs/
+*.iml
+.idea/
+.DS_Store
+.git/
+README.md
+*.md
+.gitignore
+docker-compose.yml
+Dockerfile*
+nginx.conf

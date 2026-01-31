@@ -1,0 +1,17 @@
+services:
+  link:
+    build: .
+    restart: on-failure
+    ports:
+      - 9991:9101
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.tcp.routers.link.rule=HostSNI(`link.cbc2025.cloud`)"
+      - "traefik.tcp.routers.link.tls=true"
+      - "traefik.tcp.services.link.loadbalancer.server.port=9101"
+
+networks:
+  traefik:
+    external: true

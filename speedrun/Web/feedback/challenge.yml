@@ -1,0 +1,21 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/dimasma0305/ctfify/refs/heads/master/function/template/templates/others/ctf-template/.gzctf/challenge.schema.yaml
+
+name: "Feedback"
+author: "daffainfo"
+description: |
+  I want ur feedback
+
+  URL: https://feedback.cbc2025.cloud/
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{7f87613485490bcd08bc44d4143153e3}"
+
+
+provide: "./dist"
+
+scripts:
+    start: cd src && docker compose -p {{.slug}} up --build -d
+    stop: cd src && docker compose -p {{.slug}} down --volumes

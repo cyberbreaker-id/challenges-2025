@@ -1,0 +1,36 @@
+version: "3"
+
+services:
+  trytologin:
+    build: .
+    restart: always
+    volumes:
+      - ./src:/var/www/
+      - ./flag.txt:/flag.txt:ro
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html
+    depends_on:
+      - mysqllogin
+    networks:
+      - traefik
+      - internal
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.trytologin.rule=Host(`trytologin.cbc2025.cloud`)"
+      - "traefik.http.routers.trytologin.tls=true"
+      - "traefik.http.services.trytologin.loadbalancer.server.port=80"
+
+  mysqllogin:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ""
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: login_db
+    networks:
+      - internal
+
+networks:
+  internal:
+  traefik:
+    external: true

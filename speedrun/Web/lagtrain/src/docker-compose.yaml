@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  lagtrain:
+    image: php:8.2-apache
+    restart: always
+    build: ./
+    # volumes:
+    #   - ./src:/var/www/
+    #   - ./flag.txt:/flag.txt:ro
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.lagtrain.rule=Host(`lagtrain.cbc2025.cloud`)"
+      - "traefik.http.routers.lagtrain.tls=true"
+      - "traefik.http.services.lagtrain.loadbalancer.server.port=80"
+    
+networks:
+  traefik:
+    external: true

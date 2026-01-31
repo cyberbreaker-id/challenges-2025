@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/dimasma0305/ctfify/refs/heads/master/function/template/templates/others/ctf-template/.gzctf/challenge.schema.yaml
+
+name: "Cabin on the Hill"
+author: "amseels"
+description: |
+  My friend and I found a cabin on a hill. Inside, we discovered a mysterious note. We studied it, trying to make sense of the jumbled letters, but nothing made sense. It wasn't until I saw the back of the note.
+
+  Format Flag: CBC{`plaintext all in uppercase`}
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{WARNINGIFYOUCANREADTHISYOUSTILLHAVEACHANCETOLIVEWALKFASTERANDDONTLOOKBACKIREPEATDONTLOOKBACK}"
+
+provide: "./dist"

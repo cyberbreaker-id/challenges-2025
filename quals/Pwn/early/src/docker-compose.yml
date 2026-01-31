@@ -1,0 +1,18 @@
+services:
+  early:
+    restart: on-failure
+    build:
+      context: .
+    read_only: false
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      # ncat --ssl static-attachment.category.cyberbreaker.id 443
+      - "traefik.tcp.routers.early.rule=HostSNI(`early.cbc2025.cloud`)"
+      - "traefik.tcp.routers.early.tls=true"
+      - "traefik.tcp.services.early.loadbalancer.server.port=9103"
+
+networks:
+  traefik:
+    external: true

@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  proxy:
+    build: .
+    restart: on-failure
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.simple_form.rule=Host(`simple-form.cbc2025.cloud`)"
+      - "traefik.http.routers.simple_form.tls=true"
+      - "traefik.http.services.simple_form.loadbalancer.server.port=80"
+    
+networks:
+  traefik:
+    external: true

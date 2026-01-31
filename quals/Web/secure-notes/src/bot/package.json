@@ -1,0 +1,8 @@
+{
+  "type":"module",
+  "dependencies": {
+    "express": "latest",
+    "express-rate-limit": "latest",
+    "puppeteer": "latest"
+  }
+}

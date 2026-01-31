@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/dimasma0305/ctfify/refs/heads/master/function/template/templates/others/ctf-template/.gzctf/challenge.schema.yaml
+
+name: "rust-001"
+author: "vidner"
+description: |
+  Crabby Behind Connection
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{63899eed863b51b30f6137503ac5825a}"
+
+provide: "./dist"

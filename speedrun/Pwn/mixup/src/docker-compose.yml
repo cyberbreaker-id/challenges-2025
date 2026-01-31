@@ -1,0 +1,19 @@
+services:
+  mixup:
+    build: .
+    restart: on-failure
+    ports:
+      - 9106:9106
+
+# for deployment uncomment the traefik
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.tcp.routers.mixup.rule=HostSNI(`mixup.cbc2025.cloud`)"
+      - "traefik.tcp.routers.mixup.tls=true"
+      - "traefik.tcp.services.mixup.loadbalancer.server.port=9106"
+
+networks:
+  traefik:
+    external: true

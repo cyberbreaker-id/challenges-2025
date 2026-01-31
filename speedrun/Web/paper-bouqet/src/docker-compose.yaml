@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  paper-proxy:
+    build: ./src/proxy
+    restart: always
+    networks:
+      - internal
+    ports:
+      - 4142:4142
+
+  paper-backend:
+    build: ./src/backend
+    restart: always
+    volumes:
+      - ./src:/var/www/html:ro
+      - ./flag.txt:/flag.txt:ro
+    networks:
+      - internal
+
+
+networks:
+  internal:

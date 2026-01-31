@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  balalaikanotesapp:
+    build: ./
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - FLAG=CBC{balalalalalalalalaika}
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.constraint-label=ctf-chall"
+      - "traefik.docker.network=traefik"
+      - "traefik.http.routers.balalaika.rule=Host(`balalaika.cbc2025.cloud`)"
+      - "traefik.http.routers.balalaika.entrypoints=http"
+      - "traefik.http.routers.balalaika.middlewares=https-redirect@file"
+      - "traefik.http.routers.balalaika-https.rule=Host(`balalaika.cbc2025.cloud`)"
+      - "traefik.http.routers.balalaika-https.entrypoints=https"
+      - "traefik.http.routers.balalaika-https.tls=true"
+      - "traefik.http.routers.balalaika-https.tls.certresolver=le"
+      - "traefik.http.services.balalaika-https.loadbalancer.server.port=8080"
+networks:
+  traefik:
+    external: true
+

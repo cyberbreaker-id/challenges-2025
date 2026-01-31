@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Notes App - All Notes{% endblock %}
+
+{% block content %}
+<h1>My Notes</h1>
+
+{% if notes %}
+    {% for note in notes %}
+        <div class="note">
+            <h3><a href="{{ url_for('view_note', note_id=note.id) }}">{{ note.title }}</a></h3>
+            <p>{{ note.content[:100] }}{% if note.content|length > 100 %}...{% endif %}</p>
+            <small>Created: {{ note.created_at }}</small>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No notes found. <a href="{{ url_for('add_note') }}">Add your first note!</a></p>
+{% endif %}
+{% endblock %}

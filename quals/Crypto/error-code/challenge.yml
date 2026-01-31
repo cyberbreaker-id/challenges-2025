@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/dimasma0305/ctfify/refs/heads/master/function/template/templates/others/ctf-template/.gzctf/challenge.schema.yaml
+
+name: "Error Code"
+author: "amseels"
+description: |
+  I try to implement the Merkle-Hellman algorithm, but the decryption is not working. Can you help me find the error?
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{4_cl4ss1c_subs3t_sum_pr0blem_r1ght_9c209955}"
+
+provide: "./dist"

@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  dreamerbackend:
+    build: ./app
+    container_name: dreamerbackend
+    networks:
+      - internal
+    volumes:
+      - ./flag.txt:/flag.txt:ro
+    environment:
+      - FLASK_ENV=production
+      - FLASK_DEBUG=0
+    restart: unless-stopped
+    
+  dreamernginx:
+    image: nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - dreamerbackend
+    networks:
+      - internal
+      - traefik
+    ports:
+      - 11957:80
+    labels:
+      - "traefik.enable=true"
+      - "traefik.constraint-label=ctf-chall"
+      - "traefik.docker.network=traefik"
+      - "traefik.http.routers.dreamer.rule=Host(`dreamer.cbc2025.cloud`)"
+      - "traefik.http.routers.dreamer.entrypoints=http"
+      - "traefik.http.routers.dreamer.middlewares=https-redirect@file"
+      - "traefik.http.routers.dreamer-https.rule=Host(`dreamer.cbc2025.cloud`)"
+      - "traefik.http.routers.dreamer-https.entrypoints=https"
+      - "traefik.http.routers.dreamer-https.tls=true"
+      - "traefik.http.routers.dreamer-https.tls.certresolver=le"
+      - "traefik.http.services.dreamer-https.loadbalancer.server.port=80"
+      
+networks:
+  internal:
+  traefik:
+    external: true

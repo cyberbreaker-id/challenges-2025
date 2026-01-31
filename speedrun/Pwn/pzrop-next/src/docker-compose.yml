@@ -1,0 +1,16 @@
+services:
+  pzrop-next:
+    build: .
+    restart: on-failure
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.constraint-label=ctf-chall"
+      - "traefik.tcp.routers.pzrop-next.rule=HostSNI(`pzrop-next.cbc2025.cloud`)"
+      - "traefik.tcp.routers.pzrop-next.tls=true"
+      - "traefik.tcp.services.pzrop-next.loadbalancer.server.port=9113"
+
+networks:
+  traefik:
+    external: true

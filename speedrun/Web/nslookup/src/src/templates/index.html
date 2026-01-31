@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Domain2IP Tool</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+  <div class="bg-white shadow-xl rounded-xl p-8 w-full max-w-md">
+    <h1 class="text-2xl font-bold mb-4 text-center">Domain2IP</h1>
+
+    <input id="domainInput" type="text" placeholder="Enter domain (e.g., google.com)"
+           class="w-full border border-gray-300 rounded px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400">
+
+    <button onclick="runDomain2IP()" 
+            class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+      Lookup
+    </button>
+
+    <div id="output" class="mt-6 bg-gray-900 text-green-300 text-sm rounded p-4 overflow-x-auto hidden">
+      <pre id="preOutput" class="whitespace-pre-wrap"></pre>
+    </div>
+  </div>
+
+  <script>
+    async function runDomain2IP() {
+      const domain = document.getElementById("domainInput").value.trim();
+      const outputBox = document.getElementById("output");
+      const pre = document.getElementById("preOutput");
+
+      outputBox.classList.add("hidden");
+      pre.textContent = "Loading...";
+
+      try {
+        const res = await fetch("/nslookup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ domain })
+        });
+
+        const data = await res.json();
+        pre.textContent = data.result || data.error || "Unexpected response.";
+        outputBox.classList.remove("hidden");
+      } catch (err) {
+        pre.textContent = "Request failed: " + err;
+        outputBox.classList.remove("hidden");
+      }
+    }
+  </script>
+</body>
+</html>

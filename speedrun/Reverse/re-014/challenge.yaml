@@ -1,0 +1,13 @@
+
+name: "re-014"
+author: "ryuk"
+description: |
+  re-014
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{simple_snake_game_with_mt19937_and_md5}"
+
+provide: "./dist"

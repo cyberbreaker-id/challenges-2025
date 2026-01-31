@@ -1,0 +1,21 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/dimasma0305/ctfify/refs/heads/master/function/template/templates/others/ctf-template/.gzctf/challenge.schema.yaml
+
+name: "Preview Email"
+author: "daffainfo"
+description: |
+  What could go wrong?
+
+  URL: https://email.cbc2025.cloud/
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{9d9209a341eca2fe0aaa14a3ee6043c1}"
+
+
+provide: "./dist"
+
+scripts:
+    start: cd src && docker compose -p {{.slug}} up --build -d
+    stop: cd src && docker compose -p {{.slug}} down --volumes

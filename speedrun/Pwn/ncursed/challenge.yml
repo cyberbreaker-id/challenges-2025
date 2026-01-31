@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/dimasma0305/ctfify/refs/heads/master/function/template/templates/others/ctf-template/.gzctf/challenge.schema.yaml
+
+name: "ncursed"
+author: "bl33dz"
+description: |
+  Connect: ncat --ssl ncursed.cbc2025.cloud 443
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{ncurses?_ncursed?_d34df0}"
+
+provide: "./dist"
+
+scripts:
+  start: cd src && docker compose -p {{.slug}} up --build --force-recreate -d
+  stop: cd src && docker compose -p {{.slug}} down --volumes

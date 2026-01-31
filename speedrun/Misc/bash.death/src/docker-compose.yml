@@ -1,0 +1,16 @@
+services:
+  bash-death:
+    build: .
+    restart: on-failure
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.constraint-label=ctf-chall"
+      - "traefik.tcp.routers.bash-death.rule=HostSNI(`bash-death.cbc2025.cloud`)"
+      - "traefik.tcp.routers.bash-death.tls=true"
+      - "traefik.tcp.services.bash-death.loadbalancer.server.port=9101"
+
+networks:
+  traefik:
+    external: true

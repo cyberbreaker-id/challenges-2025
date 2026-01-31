@@ -1,0 +1,21 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/dimasma0305/ctfify/refs/heads/master/function/template/templates/others/ctf-template/.gzctf/challenge.schema.yaml
+
+name: "Reduce"
+author: "daffainfo"
+description: |
+  Reduce? What is that
+
+  URL: https://reduce.cbc2025.cloud/
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{58f389c44298bda3bd2f53464000f111}"
+
+
+provide: "./dist"
+
+scripts:
+    start: cd src && docker compose -p {{.slug}} up --build -d
+    stop: cd src && docker compose -p {{.slug}} down --volumes

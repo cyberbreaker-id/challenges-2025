@@ -1,0 +1,15 @@
+services:
+  calc-000:
+    build: .
+    restart: on-failure
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.tcp.routers.calc-000.rule=HostSNI(`calc-000.cbc2025.cloud`)"
+      - "traefik.tcp.routers.calc-000.tls=true"
+      - "traefik.tcp.services.calc-000.loadbalancer.server.port=9101"
+
+networks:
+  traefik:
+    external: true

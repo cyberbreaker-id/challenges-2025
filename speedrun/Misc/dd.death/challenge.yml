@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/dimasma0305/ctfify/refs/heads/master/function/template/templates/others/ctf-template/.gzctf/challenge.schema.yaml
+
+name: "dd"
+author: "zafirr"
+description: |
+  dd
+
+  Connect: ncat --ssl dd.cbc2025.cloud 443
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{can_start_calling_www_bugs_kusa_bugs_please_cc3daa1}"
+
+provide: "./dist"
+
+scripts:
+  start: cd src && docker compose -p {{.slug}} up --build --force-recreate -d
+  stop: cd src && docker compose -p {{.slug}} down --volumes

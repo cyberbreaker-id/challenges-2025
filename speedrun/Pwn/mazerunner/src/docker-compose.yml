@@ -1,0 +1,18 @@
+services:
+  mazerunner:
+    build: .
+    restart: on-failure
+    ports:
+      - 9101:9101
+# for deployment uncomment the traefik
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.tcp.routers.mazerunner.rule=HostSNI(`mazerunner.cbc2025.cloud`)"
+      - "traefik.tcp.routers.mazerunner.tls=true"
+      - "traefik.tcp.services.mazerunner.loadbalancer.server.port=9101"
+
+networks:
+  traefik:
+    external: true

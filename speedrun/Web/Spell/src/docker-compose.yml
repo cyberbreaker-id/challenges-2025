@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  spell:
+    build: .
+    volumes:
+      - ./flag.txt:/flag.txt:ro
+    environment:
+      - FLASK_ENV=production
+      - FLASK_DEBUG=0
+    restart: unless-stopped
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.spell.rule=Host(`spell.cbc2025.cloud`)"
+      - "traefik.http.routers.spell.tls=true"
+      - "traefik.http.services.spell.loadbalancer.server.port=8080"
+networks:
+  traefik:
+    external: true

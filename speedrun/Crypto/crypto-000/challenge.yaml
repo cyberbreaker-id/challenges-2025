@@ -1,0 +1,13 @@
+
+name: "crypto-000"
+author: "ryuk"
+description: |
+  crypto-000
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{shuffled_LCG_4_you_dde3c66e69cc}"
+
+provide: "./dist"

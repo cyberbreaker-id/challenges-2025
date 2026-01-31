@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Notes Dashboard</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			max-width: 800px;
+			margin: 0 auto;
+			padding: 20px;
+			background-color: #f5f5f5;
+		}
+		h1 {
+			color: #333;
+			text-align: center;
+		}
+		h2 {
+			color: #555;
+			border-bottom: 2px solid #ddd;
+			padding-bottom: 5px;
+		}
+		.note {
+			border: 1px solid #ccc;
+			margin: 15px 0;
+			padding: 15px;
+			background-color: white;
+			border-radius: 5px;
+			box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+		}
+		.temp-note {
+			border: 1px solid #ffa500;
+			background-color: #fff8dc;
+		}
+		.note h3 {
+			margin-top: 0;
+			color: #333;
+		}
+		.note p {
+			margin-bottom: 10px;
+			line-height: 1.4;
+		}
+		form {
+			background-color: white;
+			padding: 20px;
+			border-radius: 5px;
+			margin: 20px 0;
+			box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+		}
+		input[type="text"], textarea {
+			width: 100%;
+			padding: 8px;
+			border: 1px solid #ddd;
+			border-radius: 3px;
+			margin-bottom: 10px;
+			box-sizing: border-box;
+		}
+		button {
+			background-color: #007bff;
+			color: white;
+			padding: 10px 20px;
+			border: none;
+			border-radius: 3px;
+			cursor: pointer;
+		}
+		button:hover {
+			background-color: #0056b3;
+		}
+		.delete-btn {
+			background-color: #ff4444;
+			padding: 5px 10px;
+			font-size: 12px;
+		}
+		.delete-btn:hover {
+			background-color: #cc0000;
+		}
+		.logout-link {
+			display: inline-block;
+			margin-top: 30px;
+			color: #007bff;
+			text-decoration: none;
+		}
+		.logout-link:hover {
+			text-decoration: underline;
+		}
+		.premium-notice {
+			background-color: #fff3cd;
+			border: 1px solid #ffeaa7;
+			padding: 15px;
+			border-radius: 5px;
+			text-align: center;
+		}
+		small {
+			color: #666;
+		}
+	</style>
+</head>
+<body>
+	<h1>Your Notes</h1>
+	
+	<h2>Notes</h2>
+	<div id="notes">
+		{{range .Notes}}
+		<div class="note">
+			<h3>{{.ProcessedTitle}}</h3>
+			<p>{{.ProcessedContent}}</p>
+		</div>
+		{{end}}
+		{{if not .Notes}}
+		<p>No notes yet.</p>
+		{{end}}
+	</div>
+	{{if .IsPremium}}
+		<h2>Create New Note</h2>
+		<form method="POST" action="/notes">
+			<input type="text" name="title" placeholder="Note title" required>
+			<textarea name="content" placeholder="Note content" required rows="5"></textarea>
+			<button type="submit">Create  Note</button>
+		</form>
+	{{else}}
+		<div class="premium-notice">
+			<p><strong>Upgrade to premium to create notes!</strong></p>
+		</div>
+	{{end}}
+	
+	<a href="/logout" class="logout-link">Logout</a>
+</body>
+</html>

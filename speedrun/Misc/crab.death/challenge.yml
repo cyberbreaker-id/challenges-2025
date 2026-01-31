@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/dimasma0305/ctfify/refs/heads/master/function/template/templates/others/ctf-template/.gzctf/challenge.schema.yaml
+
+name: "crab drig"
+author: "bl33dz"
+description: "sudden death"
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{ea5y_cr4b_dr1g}"
+
+provide: "./dist"

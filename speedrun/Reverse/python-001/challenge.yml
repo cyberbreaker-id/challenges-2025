@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/dimasma0305/ctfify/refs/heads/master/function/template/templates/others/ctf-template/.gzctf/challenge.schema.yaml
+
+name: "python-001"
+author: "vidner"
+description: |
+  Codon Binary Crackme
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{16b91c777337dfb8066a8f0929db573b}"
+
+provide: "./dist"

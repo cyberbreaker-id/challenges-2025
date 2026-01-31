@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/dimasma0305/ctfify/refs/heads/master/function/template/templates/others/ctf-template/.gzctf/challenge.schema.yaml
+
+name: "cmd-000"
+author: "zafirr"
+description: |
+  cmd.exe
+
+  Connect: ncat --ssl cmd-000.cbc2025.cloud 443
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{command_prompt_sucks_even_sh_is_better_than_it_6f8cbfd}"
+
+provide: "./dist"
+
+scripts:
+  start: cd src && docker compose -p {{.slug}} up --build --force-recreate -d
+  stop: cd src && docker compose -p {{.slug}} down --volumes

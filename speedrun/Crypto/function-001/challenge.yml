@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/dimasma0305/ctfify/refs/heads/master/function/template/templates/others/ctf-template/.gzctf/challenge.schema.yaml
+
+name: "function-001"
+author: "amseels"
+description: |
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{f67d582aab9f4619abcbf208e6d6f9c7}"
+
+provide: "./dist"

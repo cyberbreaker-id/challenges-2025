@@ -1,0 +1,38 @@
+services:
+  javana:
+    build:
+      context: ./javana
+      dockerfile: Dockerfile
+    #ports:
+    #  - "10001:9001"
+    depends_on:
+      - javana-greeter
+    networks:
+      - traefik
+      - internal
+    labels:
+      - "traefik.enable=true"
+      - "traefik.constraint-label=ctf-chall"
+      - "traefik.docker.network=traefik"
+      - "traefik.http.routers.i-love-java.rule=Host(`i-love-java.cbc2025.cloud`)"
+      - "traefik.http.routers.i-love-java.entrypoints=http"
+      - "traefik.http.routers.i-love-java.middlewares=https-redirect@file"
+      - "traefik.http.routers.i-love-java-https.rule=Host(`i-love-java.cbc2025.cloud`)"
+      - "traefik.http.routers.i-love-java-https.entrypoints=https"
+      - "traefik.http.routers.i-love-java-https.tls=true"
+      - "traefik.http.routers.i-love-java-https.tls.certresolver=le"
+      - "traefik.http.services.i-love-java-https.loadbalancer.server.port=9001"
+
+  javana-greeter:
+    build:
+      context: ./javana-greeter
+      dockerfile: Dockerfile
+    volumes:
+      - ./flag.txt:/flag.txt:ro
+    networks:
+      - internal
+
+networks:
+  internal:
+  traefik:
+    external: true

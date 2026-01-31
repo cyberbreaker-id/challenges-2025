@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/dimasma0305/ctfify/refs/heads/master/function/template/templates/others/ctf-template/.gzctf/challenge.schema.yaml
+
+name: "desdes"
+author: "amseels"
+description: |
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{14300a868d7805ae1b6e9b16c953d931}"
+
+provide: "./dist"

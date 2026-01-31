@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/dimasma0305/ctfify/refs/heads/master/function/template/templates/others/ctf-template/.gzctf/challenge.schema.yaml
+
+name: "XOR till die"
+author: "bl33dz"
+description: test
+  
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{sudd3n_death_x0r_000000}"
+
+provide: "./dist"

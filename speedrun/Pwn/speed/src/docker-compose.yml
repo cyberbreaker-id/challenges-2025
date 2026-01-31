@@ -1,0 +1,17 @@
+services:
+  speed:
+    build: .
+    restart: on-failure
+    ports:
+      - 9992:9101
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.tcp.routers.speed.rule=HostSNI(`speed.cbc2025.cloud`)"
+      - "traefik.tcp.routers.speed.tls=true"
+      - "traefik.tcp.services.speed.loadbalancer.server.port=9101"
+
+networks:
+  traefik:
+    external: true

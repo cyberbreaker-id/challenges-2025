@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  mortalweb:
+    build: .
+    volumes:
+      - ./html:/srv
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+    restart: unless-stopped
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.constraint-label=ctf-chall"
+      - "traefik.docker.network=traefik"
+      - "traefik.http.routers.mortal.rule=Host(`mortal.cbc2025.cloud`)"
+      - "traefik.http.routers.mortal.entrypoints=http"
+      - "traefik.http.routers.mortal.middlewares=https-redirect@file"
+      - "traefik.http.routers.mortal-https.rule=Host(`mortal.cbc2025.cloud`)"
+      - "traefik.http.routers.mortal-https.entrypoints=https"
+      - "traefik.http.routers.mortal-https.tls=true"
+      - "traefik.http.routers.mortal-https.tls.certresolver=le"
+      - "traefik.http.services.mortal-https.loadbalancer.server.port=80"
+
+networks:
+  traefik:
+    external: true
+

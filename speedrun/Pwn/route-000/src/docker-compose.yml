@@ -1,0 +1,16 @@
+services:
+  route-000:
+    build: .
+    restart: on-failure
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.constraint-label=ctf-chall"
+      - "traefik.tcp.routers.route-000.rule=HostSNI(`route-000.cbc2025.cloud`)"
+      - "traefik.tcp.routers.route-000.tls=true"
+      - "traefik.tcp.services.route-000.loadbalancer.server.port=9101"
+
+networks:
+  traefik:
+    external: true

@@ -1,0 +1,27 @@
+:80 {
+    # Security headers
+    header {
+        X-Content-Type-Options nosniff
+        X-Frame-Options DENY
+        X-XSS-Protection "1; mode=block"
+        Referrer-Policy strict-origin-when-cross-origin
+    }
+
+    root * /
+    templates
+    handle /healthcheck {
+        header Content-Type text/html
+        respond "Status: Up<br>Previous Path: {http.request.header.Referer}" 200
+    }
+    
+    respond * "Hi!" 200
+    encode gzip
+    
+    
+    
+    # Logging
+    log {
+        output stdout
+        format json
+    }
+}

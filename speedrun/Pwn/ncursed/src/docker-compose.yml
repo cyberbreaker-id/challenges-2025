@@ -1,0 +1,16 @@
+services:
+  ncursed:
+    build: .
+    restart: on-failure
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.constraint-label=ctf-chall"
+      - "traefik.tcp.routers.ncursed.rule=HostSNI(`ncursed.cbc2025.cloud`)"
+      - "traefik.tcp.routers.ncursed.tls=true"
+      - "traefik.tcp.services.ncursed.loadbalancer.server.port=9101"
+
+networks:
+  traefik:
+    external: true

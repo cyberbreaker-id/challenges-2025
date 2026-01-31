@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Secure Notes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .register-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 2rem;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        input[type="text"]:focus, input[type="password"]:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+        .btn {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-bottom: 1rem;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 0.75rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            border: 1px solid #f5c6cb;
+        }
+        .links {
+            text-align: center;
+            margin-top: 1rem;
+        }
+        .links a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .links a:hover {
+            text-decoration: underline;
+        }
+        .requirements {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        .requirements ul {
+            margin: 0.5rem 0;
+            padding-left: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <h1>Register</h1>
+        
+        <div id="error-message" class="error" style="display: none;"></div>
+        
+        <form action="/user/register" method="POST">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required minlength="3">
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required minlength="6">
+            </div>
+            
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required minlength="6">
+            </div>
+            
+            <div class="requirements">
+                <strong>Requirements:</strong>
+                <ul>
+                    <li>Username: minimum 3 characters</li>
+                    <li>Password: minimum 6 characters</li>
+                    <li>Passwords must match</li>
+                </ul>
+            </div>
+            
+            <button type="submit" class="btn">Create Account</button>
+        </form>
+        
+        <div class="links">
+            <a href="/">Already have an account? Login here</a>
+        </div>
+    </div>
+
+    <script>
+        // Show error messages from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const error = urlParams.get('error');
+        
+        if (error) {
+            const errorDiv = document.getElementById('error-message');
+            let errorMessage = '';
+            
+            switch(error) {
+                case 'missing_fields':
+                    errorMessage = 'Please fill in all fields.';
+                    break;
+                case 'password_mismatch':
+                    errorMessage = 'Passwords do not match.';
+                    break;
+                case 'username_too_short':
+                    errorMessage = 'Username must be at least 3 characters long.';
+                    break;
+                case 'password_too_short':
+                    errorMessage = 'Password must be at least 6 characters long.';
+                    break;
+                case 'username_exists':
+                    errorMessage = 'Username already exists. Please choose another.';
+                    break;
+                case 'server_error':
+                    errorMessage = 'Registration failed. Please try again.';
+                    break;
+                default:
+                    errorMessage = 'An error occurred during registration.';
+            }
+            
+            errorDiv.textContent = errorMessage;
+            errorDiv.style.display = 'block';
+        }
+        
+        // Client-side validation
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                e.preventDefault();
+                const errorDiv = document.getElementById('error-message');
+                errorDiv.textContent = 'Passwords do not match.';
+                errorDiv.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

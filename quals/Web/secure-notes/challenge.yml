@@ -1,0 +1,31 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/dimasma0305/ctfify/refs/heads/master/function/template/templates/others/ctf-template/.gzctf/challenge.schema.yaml
+
+name: "secure-notes"
+author: "nyxmare"
+description: |
+  A Super secure notes, I am confidence i made a super secure notes. 
+
+  - Bot will be at `/visit`
+  - Please solve it locally first
+
+
+  - The attachments contains two zip:
+  - new-secure-notes.dist.zip is the same with the remote container
+  
+
+type: "DynamicContainer"
+value: 1000
+
+provide: "./dist"
+ 
+container:
+  flagTemplate: "CBC{i_guess_its_not_secure_enough_for_you_huh_[TEAM_HASH]}"
+  containerImage: "{{.slug}}:latest"
+  memoryLimit: 1024
+  cpuCount: 3
+  storageLimit: 1024
+  containerExposePort: 80
+  enableTrafficCapture: false
+
+scripts:
+  start: cd src && docker build -t {{.slug}} .

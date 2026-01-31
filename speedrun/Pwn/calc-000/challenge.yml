@@ -1,0 +1,21 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/dimasma0305/ctfify/refs/heads/master/function/template/templates/others/ctf-template/.gzctf/challenge.schema.yaml
+
+name: "calc-000"
+author: "zafirr"
+description: |
+  calc.exe
+
+  Connect: ncat --ssl calc-000.cbc2025.cloud 443 
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{pop_calc_or_pop_shell_you_tell_me_6c7aab0}"
+
+
+provide: "./dist"
+
+scripts:
+    start: cd src && docker compose -p {{.slug}} up --build -d
+    stop: cd src && docker compose -p {{.slug}} down --volumes

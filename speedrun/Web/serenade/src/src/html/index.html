@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Serenade Notes</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.2.3/animate.min.css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="main.css" />
+        <style></style>
+    </head>
+
+<body class="text-center">
+    <link href="https://fonts.googleapis.com/css?family=Noticia+Text:400,400italic | Permanent+Marker" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet" type="text/css" />
+    <div class="container-fluid">
+        <div class="container">
+            <div class="row">
+                <h1 class="col-xs-12 text-center">Serenade Notes</h1>
+            </div>
+            <div class="row">
+                <div class="center-block" id="displayBox">
+                    <div class="col-xs-12" id="topNote"></div>
+                    <div class="col-xs-12" id="noteBox">
+                        <i class="fa fa-note-left fa-2x"></i>
+                        <p id="note">Notes</p>
+                    </div>
+                    <div class="text-right" id="personBox">
+                        <p id="person">Me</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function sanitize(html) {
+            return html.replace(/(<([^>]+)>)/gi,'');
+        }
+
+        document.location.hash = "";
+        let note = document.getElementById('note')
+        
+        window.onhashchange = () => {
+            if (document.location.hash){
+                note.innerHTML = `<div>${sanitize(decodeURIComponent(document.location.hash.slice(1)))}</div>`
+            }
+
+        };
+    </script>
+</body>
+</html>

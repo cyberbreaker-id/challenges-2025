@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}{{ note.title }} - Notes App{% endblock %}
+
+{% block content %}
+<h1>{{ note.title }}</h1>
+
+<div class="note">
+    <p>{{ note.content }}</p>
+    <small>Created: {{ note.created_at }}</small>
+</div>
+
+<a href="{{ url_for('index') }}">
+    <button>Back to Notes</button>
+</a>
+{% endblock %}

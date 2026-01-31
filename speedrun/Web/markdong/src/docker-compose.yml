@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  markdong:
+    build: ./app
+    volumes:
+      - ./flag.txt:/flag.txt:ro
+    environment:
+      - FLASK_ENV=production
+      - FLASK_DEBUG=0
+    restart: unless-stopped
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.markdong.rule=Host(`markdong.cbc2025.cloud`)"
+      - "traefik.http.routers.markdong.tls=true"
+      - "traefik.http.services.markdong.loadbalancer.server.port=8000"
+networks:
+  traefik:
+    external: true

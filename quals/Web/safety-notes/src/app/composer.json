@@ -1,0 +1,30 @@
+{
+    "name": "notes-app/reactphp-notes",
+    "description": "A secure notes application built with ReactPHP",
+    "type": "project",
+    "authors": [
+        {
+            "name": "nyxsorcerer",
+            "email": "me@nyxmare.world"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "ext-pdo": "*",
+        "ext-pdo_sqlite": "*",
+        "react/http": "^3@dev",
+        "react/socket": "^1.12",
+        "twig/twig": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "": "src/"
+        }
+    },
+    "scripts": {
+        "start": "php server.php",
+        "serve": "php server.php 0.0.0.0:8080"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

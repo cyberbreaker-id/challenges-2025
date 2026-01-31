@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Notes - My Notes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .header {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        .btn:hover {
+            opacity: 0.9;
+        }
+        .note-form {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"], textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .notes-list {
+            display: grid;
+            gap: 15px;
+        }
+        .note-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        .note-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .note-content {
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+        .note-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #999;
+        }
+        .private-badge {
+            background-color: #ffc107;
+            color: #000;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 10px;
+        }
+        .note-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 5px;
+        }
+        .btn-small {
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+        .hidden {
+            display: none;
+        }
+        .folders-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .folders-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .folder-card {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            min-width: 200px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        .folder-card:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+        .folder-card.selected {
+            background: #007bff;
+            color: white;
+            border-color: #0056b3;
+        }
+        .folder-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .folder-meta {
+            font-size: 12px;
+            color: #666;
+        }
+        .folder-card.selected .folder-meta {
+            color: #ccc;
+        }
+        .folder-actions {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 300px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover {
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>My Notes <span id="noteCount" style="font-size: 14px; color: #666;"></span></h1>
+            <div class="nav-buttons">
+                <select id="viewStorageType" onchange="switchStorage()">
+                    <option value="temporary">Temporary Storage</option>
+                    <option value="database">Database Storage</option>
+                </select>
+                <button class="btn btn-primary" onclick="showCreateFolderModal()">+ Folder</button>
+                <a href="/user/logout" class="btn btn-secondary">Logout</a>
+            </div>
+        </div>
+
+        <!-- Search Section -->
+        <div class="folders-section">
+            <h3>Search Notes</h3>
+            <div class="search-form">
+                <input type="text" id="searchInput" placeholder="Search notes across folders..." style="width: 70%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                <button onclick="performSearch()" class="btn btn-primary" style="margin-left: 10px;">Search</button>
+                <button onclick="clearSearch()" class="btn btn-secondary" style="margin-left: 5px;">Clear</button>
+            </div>
+        </div>
+
+        <!-- Folder Management Section -->
+        <div class="folders-section">
+            <h3>Folders</h3>
+            <div class="folders-list" id="foldersList">
+                <!-- Folders will be loaded here -->
+            </div>
+        </div>
+
+        <div class="note-form" id="noteForm">
+            <h3>Create New Note</h3>
+            <form action="/note/create" method="post">
+                <div class="form-group">
+                    <label for="title">Title:</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="content">Content:</label>
+                    <textarea id="content" name="content" required></textarea>
+                </div>
+                <input type="hidden" id="selectedFolderId" name="folderId" required>
+                <p id="folderSelection" style="color: #666; font-size: 14px;">Select a folder above to continue</p>
+                <button type="submit" class="btn btn-primary" id="createBtn" disabled>Create Note</button>
+            </form>
+        </div>
+
+        <div class="notes-list" id="notesList">
+            <!-- Notes will be loaded here via JavaScript -->
+        </div>
+    </div>
+
+    <!-- Folder Creation Modal -->
+    <div id="folderModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeFolderModal()">&times;</span>
+            <h3>Create New Folder</h3>
+            <form id="folderForm">
+                <div class="form-group">
+                    <label for="folderName">Folder Name:</label>
+                    <input type="text" id="folderName" name="folderName" required>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="folderIsTemporary" name="folderIsTemporary" value="true" checked>
+                        <label for="folderIsTemporary">Temporary Storage</label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Create Folder</button>
+                <button type="button" class="btn btn-secondary" onclick="closeFolderModal()">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/static/js/utils.js"></script>
+    <script src="/static/js/folderManager.js"></script>
+    <script src="/static/js/noteManager.js"></script>
+    <script src="/static/js/searchManager.js"></script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+services:
+  nslookup-app:
+    build: .
+    volumes:
+      - ./flag.txt:/flag.txt:ro
+    environment:
+      - FLASK_ENV=production
+      - FLASK_DEBUG=0
+    restart: unless-stopped
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.constraint-label=ctf-chall"
+      - "traefik.http.routers.nslookup.rule=Host(`nslookup.cbc2025.cloud`)"
+      - "traefik.http.routers.nslookup.tls=true"
+      - "traefik.http.services.nslookup.loadbalancer.server.port=5000"
+networks:
+  traefik:
+    external: true

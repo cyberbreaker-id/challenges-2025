@@ -1,0 +1,23 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/dimasma0305/ctfify/refs/heads/master/function/template/templates/others/ctf-template/.gzctf/challenge.schema.yaml
+
+name: "lz1"
+author: "zafirr"
+description: |
+  All I can say is good luck!
+
+  Original code by andyherbert: github.com/andyherbert/lz1/blob/master/lz.c
+
+  Connect: ncat --ssl lz1.cbc2025.cloud 443 
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{lz1_stands_for_leverse_zhell_oneshot}"
+
+
+provide: "./dist"
+
+scripts:
+    start: cd src && docker compose -p {{.slug}} up --build -d
+    stop: cd src && docker compose -p {{.slug}} down --volumes

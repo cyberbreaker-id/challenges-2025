@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes App - Register</title>
+    <link rel="stylesheet" href="{{ base_url }}/css/login.css">
+    <style>
+        .password-strength {
+            margin-top: 5px;
+        }
+        .strength-bar {
+            width: 100%;
+            height: 4px;
+            background-color: #f0f0f0;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .strength-fill {
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease, background-color 0.3s ease;
+        }
+        .strength-text {
+            font-size: 12px;
+            margin-top: 2px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Create Account</h1>
+        
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+        
+        <form method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            <div class="form-group">
+                <input type="text" name="username" placeholder="Choose a username" required>
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" placeholder="Choose a password" required>
+            </div>
+            <button type="submit">Register</button>
+        </form>
+        
+        <div class="link">
+            <a href="/login">Already have an account? Login here</a>
+        </div>
+    </div>
+    
+    <script src="{{ base_url }}/js/register.js"></script>
+</body>
+</html>

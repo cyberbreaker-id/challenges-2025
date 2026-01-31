@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  bulbel:
+    build: ./src
+    restart: always
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/notesdb
+      - PORT=3000
+      - FLAG=CBC{fee613d4901abc011fe7a3df1a58533b}
+    networks:
+      - internal
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.constraint-label=ctf-chall"
+      - "traefik.docker.network=traefik"
+      - "traefik.http.routers.bulbel.rule=Host(`bulbel.cbc2025.cloud`)"
+      - "traefik.http.routers.bulbel.entrypoints=http"
+      - "traefik.http.routers.bulbel.middlewares=https-redirect@file"
+      - "traefik.http.routers.bulbel-https.rule=Host(`bulbel.cbc2025.cloud`)"
+      - "traefik.http.routers.bulbel-https.entrypoints=https"
+      - "traefik.http.routers.bulbel-https.tls=true"
+      - "traefik.http.routers.bulbel-https.tls.certresolver=le"
+      - "traefik.http.services.bulbel-https.loadbalancer.server.port=3000"
+  mongodb:
+    image: mongo
+    restart: unless-stopped
+    networks:
+      - internal
+
+
+
+networks:
+  internal:
+  traefik:
+    external: true
+
+  

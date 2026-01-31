@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/dimasma0305/ctfify/refs/heads/master/function/template/templates/others/ctf-template/.gzctf/challenge.schema.yaml
+
+name: "De Morgan Bits"
+author: "amseels"
+description: |
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{reaaally_hopee_you_can_solvee_this_before_AI}"
+
+provide: "./dist"

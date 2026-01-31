@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  proxy:
+    image: php:8.2-apache
+    restart: always
+    volumes:
+      - ./html:/var/www/html:ro
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.javascript-000.rule=Host(`javascript-000.cbc2025.cloud`)"
+      - "traefik.http.routers.javascript-000.tls=true"
+      - "traefik.http.services.javascript-000.loadbalancer.server.port=80"
+    
+networks:
+  traefik:
+    external: true

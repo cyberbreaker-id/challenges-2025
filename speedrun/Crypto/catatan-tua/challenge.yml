@@ -1,0 +1,15 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/dimasma0305/ctfify/refs/heads/master/function/template/templates/others/ctf-template/.gzctf/challenge.schema.yaml
+
+name: "Catatan Tua"
+author: "amseels"
+description: |
+  Aku menemukan sebuah catatan tua di tumpukan barang peninggalan kakek moyangku.
+  Konon katanya, beliau adalah seorang pejuang yang wafat dalam misi rahasia untuk mencuri surat siasat.
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{doEs_oPhoeiseN_tjan_BeaAts_AI???_JDFOIRGWBANPKTMSCLEH}"
+
+provide: "./dist"

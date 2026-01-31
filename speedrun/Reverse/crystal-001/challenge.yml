@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/dimasma0305/ctfify/refs/heads/master/function/template/templates/others/ctf-template/.gzctf/challenge.schema.yaml
+
+name: "crystal-001"
+author: "vidner"
+description: |
+  Crystal Blur Crackme
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{357af80ae654a8ee533d17533d04050e}"
+
+provide: "./dist"

@@ -1,0 +1,13 @@
+
+name: "re-003"
+author: "ryuk"
+description: |
+  re-003
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{r4nSOmw4RE_w1tH_VEH_42cad72aed}"
+
+provide: "./dist"

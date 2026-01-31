@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  tiantian:
+    build: ./src
+    restart: always
+    environment:
+      - PORT=3000
+      - FLAG=CBC{tian_tian_tian_tian_tian_tian_tian_tian_tian_tian_tian_tian_tian_tian_tian_tian}
+      - JWT_SECRET=68dbd7bdecd4762495720b97f795b5d3
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.tian_tian.rule=Host(`tian-tian.cbc2025.cloud`)"
+      - "traefik.http.routers.tian_tian.tls=true"
+      - "traefik.http.services.tian_tian.loadbalancer.server.port=3000"
+
+networks:
+  traefik:
+    external: true
+
+  

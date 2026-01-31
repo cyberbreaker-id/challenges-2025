@@ -1,0 +1,1 @@
+CBC{ROP_with_only_ld_gadgets_just_for_funsies_ccf47a0}

@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  matcher:
+    build: .
+    restart: on-failure
+    networks:
+      - traefik
+    volumes:
+      - ./flag.txt:/flag.txt:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.matcher.rule=Host(`matcher.cbc2025.cloud`)"
+      - "traefik.http.routers.matcher.tls=true"
+      - "traefik.http.services.matcher.loadbalancer.server.port=80"
+
+networks:
+  traefik:
+    external: true

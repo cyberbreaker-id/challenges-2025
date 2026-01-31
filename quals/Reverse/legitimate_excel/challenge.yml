@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/dimasma0305/ctfify/refs/heads/master/function/template/templates/others/ctf-template/.gzctf/challenge.schema.yaml
+
+name: "Legitimate Excel"
+author: "ryuk"
+description: |
+  My friend gave me the CBC competition schedule, even though it was on Instagram, why did he give me the excel file?
+
+  Password: notinfected
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{sh0uld_i_bl0ck_g1thub_b3c4us3_1t_1s_u5ed_by_m4lw4re?}"
+
+provide: "./dist"

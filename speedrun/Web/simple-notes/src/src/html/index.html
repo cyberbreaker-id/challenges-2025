@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Notes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .view {
+            display: none;
+        }
+        .view.active {
+            display: block;
+        }
+        .note-form {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+        .note-form input, .note-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .note-form button, .btn {
+            background: #007cba;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .note-form button:hover, .btn:hover {
+            background: #005a87;
+        }
+        .btn.cancel {
+            background: #6c757d;
+        }
+        .btn.cancel:hover {
+            background: #545b62;
+        }
+        .note {
+            border: 1px solid #ddd;
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 5px;
+            background: white;
+        }
+        .note h3 {
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+        .note p {
+            margin: 0 0 10px 0;
+            color: #666;
+            white-space: pre-wrap;
+        }
+        .note-meta {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 10px;
+        }
+        .note-actions {
+            text-align: right;
+        }
+        .note-actions button {
+            padding: 5px 10px;
+            margin-left: 5px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .view-btn {
+            background: #17a2b8;
+            color: white;
+        }
+        .view-btn:hover {
+            background: #138496;
+        }
+        .edit-btn {
+            background: #28a745;
+            color: white;
+        }
+        .edit-btn:hover {
+            background: #218838;
+        }
+        .delete-btn {
+            background: #dc3545;
+            color: white;
+        }
+        .delete-btn:hover {
+            background: #c82333;
+        }
+        .single-note-view {
+            background: white;
+            border: 2px solid #007cba;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        .single-note-view h2 {
+            color: #007cba;
+            margin-top: 0;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        .single-note-view .content {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #333;
+            white-space: pre-wrap;
+            margin: 20px 0;
+        }
+        .no-notes {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 40px;
+        }
+        .loading {
+            text-align: center;
+            color: #666;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Simple Notes</h1>
+        
+        <!-- List View -->
+        <div id="listView" class="view active">
+            <div class="note-form">
+                <form id="addNoteForm">
+                    <input type="text" id="noteTitle" placeholder="Note title..." required>
+                    <textarea id="noteContent" placeholder="Write your note here..." rows="4" required></textarea>
+                    <button type="submit">Add Note</button>
+                </form>
+            </div>
+            
+            <div id="notesContainer">
+                <div class="loading">Loading notes...</div>
+            </div>
+        </div>
+        
+        <!-- Single Note View -->
+        <div id="singleView" class="view">
+            <button class="btn cancel" onclick="showListView()">← Back to All Notes</button>
+            
+            <div class="single-note-view">
+                <h2 id="singleNoteTitle"></h2>
+                <div class="content" id="singleNoteContent"></div>
+                <div class="note-meta" id="singleNoteMeta"></div>
+                <div class="note-actions" style="margin-top: 20px;">
+                    <button class="delete-btn" onclick="deleteCurrentNote()">Delete</button>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    
+    <script>
+        function escapeHTML(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        let notes = [];
+        let currentNote = null;
+        
+        function getRouteFromURL() {
+            const hash = window.location.hash.slice(1);
+            if (hash) {
+                const [action, id] = hash.split('/');
+                return { action, id };
+            }
+            
+            const params = new URLSearchParams(window.location.search);
+            if (params.has('view')) {
+                return { action: 'view', id: params.get('view') };
+            }
+            if (params.has('delete')) {
+                return { action: 'delete', id: params.get('delete') };
+            }
+            
+            return { action: 'list', id: null };
+        }
+        
+        function updateURL(action, id = null) {
+            if (action === 'list') {
+                window.history.pushState({}, '', window.location.pathname);
+                window.location.hash = '';
+            } else if (id) {
+                window.location.hash = `${action}/${id}`;
+            }
+        }
+        
+        function handleRouteChange() {
+            const route = getRouteFromURL();
+            
+            switch (route.action) {
+                case 'view':
+                    if (route.id) {
+                        viewNoteById(route.id);
+                    } else {
+                        showListView();
+                    }
+                    break;
+                case 'delete':
+                    if (route.id) {
+                        deleteNoteById(route.id);
+                    } else {
+                        showListView();
+                    }
+                    break;
+                default:
+                    showListView();
+                    break;
+            }
+        }
+        
+        async function apiCall(url, options = {}) {
+            try {
+                const response = await fetch(url, options);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return await response.json();
+            } catch (error) {
+                console.error('API call failed:', error);
+                alert('An error occurred. Please try again.');
+                throw error;
+            }
+        }
+        
+        async function loadNotes() {
+            try {
+                notes = await apiCall('api.php');
+                renderNotes();
+            } catch (error) {
+                document.getElementById('notesContainer').innerHTML = '<div class="no-notes">Error loading notes</div>';
+            }
+        }
+        
+        function renderNotes() {
+            const container = document.getElementById('notesContainer');
+            
+            if (notes.length === 0) {
+                container.innerHTML = '<div class="no-notes">No notes yet. Create your first note above!</div>';
+                return;
+            }
+            
+            const reversedNotes = [...notes].reverse();
+            container.innerHTML = reversedNotes.map(note => `
+                <div data-id="${escapeHTML(note.id)}">
+                    <h3>${escapeHTML(note.title)}</h3>
+                    <p>${escapeHTML(note.content)}</p>
+                    <div class="note-meta">
+                        Created: ${escapeHTML(note.created)}
+                        ${note.updated ? `| Updated: ${escapeHTML(note.updated)}` : ''}
+                    </div>
+                    <div class="note-actions">
+                        <button class="view-btn" onclick="viewNote('${note.id}')">View</button>
+                        <button class="delete-btn" onclick="deleteNote('${note.id}')">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        async function addNote(event) {
+            event.preventDefault();
+            const title = document.getElementById('noteTitle').value;
+            const content = document.getElementById('noteContent').value;
+            
+            try {
+                const newNote = await apiCall('api.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title, content })
+                });
+                
+                notes.push(newNote);
+                renderNotes();
+                document.getElementById('addNoteForm').reset();
+            } catch (error) {
+                // Error already handled in apiCall
+            }
+        }
+        
+        function viewNote(id) {
+            updateURL('view', id);
+            viewNoteById(id);
+        }
+        
+        async function viewNoteById(id) {
+            try {
+                const note = await apiCall(`api.php?id=${encodeURIComponent(id)}`);
+                if (!note || !note.id) {
+                    // Show not found message
+                    const singleNoteView = document.querySelector('.single-note-view');
+                    singleNoteView.innerHTML = `
+                    <div class="no-notes" data-id="${escapeHTML(id)}">
+                        <div class="content"> Note ${escapeHTML(id)} is not found</div>
+                    </div>
+                    `;
+                    showView('singleView');
+                    return;
+                }
+                
+                currentNote = note;
+                
+                // Update the single note view with data-id attribute
+                const singleNoteView = document.querySelector('.single-note-view');
+                singleNoteView.innerHTML = `
+                    <div data-id="${escapeHTML(note.id)}">
+                        <h2>${escapeHTML(note.title)}</h2>
+                        <div class="content">${escapeHTML(note.content)}</div>
+                        <div class="note-meta">
+                            Created: ${escapeHTML(note.created)}
+                            ${note.updated ? `| Updated: ${escapeHTML(note.updated)}` : ''}
+                        </div>
+                        <div class="note-actions" style="margin-top: 20px;">
+                            <button class="view-btn" onclick="shareNote('${escapeHTML(note.id)}')">Share Link</button>
+                            <button class="delete-btn" onclick="deleteCurrentNote()">Delete</button>
+                        </div>
+                    </div>
+                `;
+                
+                showView('singleView');
+            } catch (error) {
+                showListView();
+            }
+        }
+        
+        function shareNote(id) {
+            const shareUrl = `${window.location.origin}${window.location.pathname}#view/${id}`;
+            
+            // Try to use the Web Share API if available
+            if (navigator.share) {
+                navigator.share({
+                    title: currentNote ? currentNote.title : 'Note',
+                    text: 'Check out this note',
+                    url: shareUrl
+                }).catch(err => {
+                    console.log('Share failed:', err);
+                    copyToClipboard(shareUrl);
+                });
+            } else {
+                copyToClipboard(shareUrl);
+            }
+        }
+        
+        function copyToClipboard(text) {
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(() => {
+                    alert('Share link copied to clipboard!');
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                    fallbackCopyTextToClipboard(text);
+                });
+            } else {
+                fallbackCopyTextToClipboard(text);
+            }
+        }
+        
+        function fallbackCopyTextToClipboard(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.top = "0";
+            textArea.style.left = "0";
+            textArea.style.position = "fixed";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    alert('Share link copied to clipboard!');
+                } else {
+                    prompt('Copy this link to share:', text);
+                }
+            } catch (err) {
+                prompt('Copy this link to share:', text);
+            }
+            
+            document.body.removeChild(textArea);
+        }
+        
+        function deleteNoteById(id) {
+            deleteNote(id);
+        }
+        
+        async function deleteNote(id) {
+            if (!confirm('Are you sure you want to delete this note?')) return;
+            
+            try {
+                await apiCall(`api.php?id=${id}`, { method: 'DELETE' });
+                notes = notes.filter(n => n.id !== id);
+                renderNotes();
+                showListView();
+            } catch (error) {
+                // Error already handled in apiCall
+            }
+        }
+        
+        function deleteCurrentNote() {
+            if (currentNote) {
+                deleteNote(currentNote.id);
+            }
+        }
+        
+        function showView(viewId) {
+            document.querySelectorAll('.view').forEach(view => view.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+        }
+        
+        function showListView() {
+            updateURL('list');
+            showView('listView');
+            currentNote = null;
+        }
+        
+        // Event listeners
+        document.getElementById('addNoteForm').addEventListener('submit', addNote);
+        
+        // Handle browser back/forward buttons
+        window.addEventListener('hashchange', handleRouteChange);
+        window.addEventListener('popstate', handleRouteChange);
+        
+        // Load notes and handle initial route on page load
+        document.addEventListener('DOMContentLoaded', async function() {
+            await loadNotes();
+            handleRouteChange();
+        });
+    </script>
+</body>
+</html>

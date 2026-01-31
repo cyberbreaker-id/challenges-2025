@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes App - My Notes</title>
+    <link rel="stylesheet" href="{{ base_url }}/css/notes.css">
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <h1>My Notes</h1>
+            <div class="user-info">
+                <span>Welcome, {{ username }}!</span>
+                <a href="/logout" class="logout-btn">Logout</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="add-note-section">
+            <h2>Add New Note</h2>
+            <form method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                <div class="form-group">
+                    <input type="text" name="title" placeholder="Note Title" required>
+                </div>
+                <div class="form-group">
+                    <textarea name="content" placeholder="Write your note here..." required></textarea>
+                </div>
+                <button type="submit" class="btn">Add Note</button>
+            </form>
+        </div>
+        
+        <div class="notes-section">
+            <h2>Your Notes</h2>
+            <div class="notes-grid">
+                {% if notes is empty %}
+                    <p class="no-notes">No notes yet. Create your first note above!</p>
+                {% else %}
+                    {% for note in notes %}
+                    <div class="note">
+                        <h3>{{ note.title }}</h3>
+                        <div class="note-content">{{ note.content|nl2br }}</div>
+                        <div class="note-meta">
+                            <span>{{ note.created_at }}</span>
+                            <a href="/delete-note?id={{ note.id }}" class="delete-btn" onclick="return confirm('Are you sure you want to delete this note?')">Delete</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <script src="{{ base_url }}/js/notes.js"></script>
+</body>
+</html>

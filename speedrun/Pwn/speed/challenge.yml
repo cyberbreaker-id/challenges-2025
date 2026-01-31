@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/dimasma0305/ctfify/refs/heads/master/function/template/templates/others/ctf-template/.gzctf/challenge.schema.yaml
+
+name: "speed"
+author: "Linz"
+description: |
+  Fast!! can you get the `admin` user?
+
+  Connect: nc 157.245.146.21 9992
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{you're_so_fast!_are_you_ROSSI?!!!_LINZ_IS_HERE}"
+
+provide: "./dist"
+
+scripts:
+  start: cd src && docker compose -p {{.slug}} up --build --force-recreate -d
+  stop: cd src && docker compose -p {{.slug}} down --volumes

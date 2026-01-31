@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Notes App</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>Notes App</h1>
+    
+    <div id="auth-section">
+        <div id="login-form" class="auth-form">
+            <h2>Login</h2>
+            <input type="text" id="login-username" placeholder="Username">
+            <input type="password" id="login-password" placeholder="Password">
+            <button onclick="login()">Login</button>
+            <button onclick="showRegister()">Register </button>
+        </div>
+
+        <div id="register-form" class="auth-form hidden">
+            <h2>Register</h2>
+            <input type="text" id="register-username" placeholder="Username">
+            <input type="email" id="register-email" placeholder="Email">
+            <input type="password" id="register-password" placeholder="Password">
+            <button onclick="register()">Register</button>
+            <button onclick="showLogin()">Login </button>
+        </div>
+    </div>
+
+    <div id="app" class="hidden">
+        <div class="user-info">
+            <span>Welcome, <span id="current-user"></span>!</span>
+            <button onclick="logout()">Logout</button>
+        </div>
+        
+        <h2>Add Note</h2>
+        <input type="text" id="title" placeholder="Title">
+        <textarea id="content" placeholder="Content"></textarea>
+        <button onclick="createNote()">Add Note</button>
+        
+        <h2>Notes</h2>
+        <div id="notes"></div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

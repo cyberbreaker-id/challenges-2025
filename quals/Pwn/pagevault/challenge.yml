@@ -1,0 +1,21 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/dimasma0305/ctfify/refs/heads/master/function/template/templates/others/ctf-template/.gzctf/challenge.schema.yaml
+
+name: "pagevault"
+author: "ramdhan"
+description: |
+  Just another kernel UAF
+
+  Connect: ncat --ssl pagevault.cbc2025.cloud 443 or ncat 188.166.230.17 9102
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{Just_Another_UseAfterFree_challenge}"
+
+
+provide: "./dist"
+
+scripts:
+    start: cd src && docker compose -p {{.slug}} up --build -d
+    stop: cd src && docker compose -p {{.slug}} down --volumes

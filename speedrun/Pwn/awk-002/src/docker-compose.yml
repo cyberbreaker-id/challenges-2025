@@ -1,0 +1,16 @@
+services:
+  awk-002:
+    build: .
+    restart: on-failure
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.constraint-label=ctf-chall"
+      - "traefik.tcp.routers.awk-002.rule=HostSNI(`awk-002.cbc2025.cloud`)"
+      - "traefik.tcp.routers.awk-002.tls=true"
+      - "traefik.tcp.services.awk-002.loadbalancer.server.port=9101"
+
+networks:
+  traefik:
+    external: true

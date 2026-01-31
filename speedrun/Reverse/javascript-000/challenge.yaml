@@ -1,0 +1,17 @@
+
+name: "javascript-000"
+author: "vidner"
+description: |
+  Can you Beat the Cactus?
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{38043db625111bd62715e3f106ed6c67}"
+
+provide: "./dist"
+
+scripts:
+    start: cd src && docker compose -p {{.slug}} up --build -d
+    stop: cd src && docker compose -p {{.slug}} down --volumes

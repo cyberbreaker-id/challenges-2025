@@ -1,0 +1,19 @@
+{
+  "name": "secure-notes",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "nyxmare",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "dompurify": "^3.2.6",
+    "express": "^5.1.0",
+    "express-session": "^1.17.3",
+    "html-to-text": "^9.0.5",
+    "jsdom": "^22.1.0",
+    "mariadb": "^2.5.6"
+  }
+}

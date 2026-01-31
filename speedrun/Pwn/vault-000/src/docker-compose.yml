@@ -1,0 +1,18 @@
+services:
+  vault-000:
+    build: .
+    restart: on-failure
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.constraint-label=ctf-chall"
+      - "traefik.tcp.routers.vault-000.rule=HostSNI(`vault-000.cbc2025.cloud`)"
+      - "traefik.tcp.routers.vault-000.tls=true"
+      - "traefik.tcp.services.vault-000.loadbalancer.server.port=9101"
+    # ports:
+    #   - "9101:9101"
+
+networks:
+  traefik:
+    external: true

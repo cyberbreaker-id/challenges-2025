@@ -1,0 +1,16 @@
+services:
+  eval-003:
+    build: .
+    restart: on-failure
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.constraint-label=ctf-chall"
+      - "traefik.tcp.routers.eval-003.rule=HostSNI(`eval-003.cbc2025.cloud`)"
+      - "traefik.tcp.routers.eval-003.tls=true"
+      - "traefik.tcp.services.eval-003.loadbalancer.server.port=9112"
+
+networks:
+  traefik:
+    external: true

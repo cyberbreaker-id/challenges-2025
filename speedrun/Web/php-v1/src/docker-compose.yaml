@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  proxy:
+    build: .
+    restart: on-failure
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.php_v1.rule=Host(`php-v1.cbc2025.cloud`)"
+      - "traefik.http.routers.php_v1.tls=true"
+      - "traefik.http.services.php_v1.loadbalancer.server.port=80"
+    
+networks:
+  traefik:
+    external: true

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Login History - Notes App{% endblock %}
+
+{% block content %}
+<h2>Login History</h2>
+
+{% if login_logs %}
+    {% for log in login_logs %}
+    <div class="login-log">
+        {{ log.formatted }}
+    </div>
+    {% endfor %}
+{% else %}
+    <p>No login history available.</p>
+{% endif %}
+
+<p style="margin-top: 20px;">
+    <a href="{{ url_for('index') }}">Back to Notes</a>
+</p>
+{% endblock %}

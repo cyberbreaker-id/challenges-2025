@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  md5-hash:
+    build: .
+    restart: on-failure
+    networks:
+      - traefik
+    volumes:
+      - ./flag.txt:/flag.txt:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.md5_hash.rule=Host(`md5-hash.cbc2025.cloud`)"
+      - "traefik.http.routers.md5_hash.tls=true"
+      - "traefik.http.services.md5_hash.loadbalancer.server.port=80"
+
+networks:
+  traefik:
+    external: true

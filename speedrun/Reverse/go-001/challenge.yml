@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/dimasma0305/ctfify/refs/heads/master/function/template/templates/others/ctf-template/.gzctf/challenge.schema.yaml
+
+name: "go-001"
+author: "vidner"
+description: |
+  Clearly Brave Concurrency
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{7db20d13508ff11c7c40370cf99ba0bc}"
+
+provide: "./dist"

@@ -1,0 +1,28 @@
+services:
+  pagevault:
+    restart: on-failure
+    platform: linux/amd64
+    build:
+      context: .
+    ports:
+      - "9102:9102" # exposed:local
+    read_only: false
+    deploy:
+      resources:
+        limits:
+          memory: 2048M
+        reservations:
+          memory: 2048M
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      # ncat --ssl static-attachment.category.cyberbreaker.id 443
+      - "traefik.tcp.routers.pagevault.rule=HostSNI(`pagevault.cbc2025.cloud`)"
+      - "traefik.tcp.routers.pagevault.tls=true"
+      - "traefik.tcp.services.pagevault.loadbalancer.server.port=9102"
+      
+
+networks:
+  traefik:
+    external: true

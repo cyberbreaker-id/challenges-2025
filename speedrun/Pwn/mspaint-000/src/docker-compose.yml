@@ -1,0 +1,15 @@
+services:
+  mspaint-000:
+    build: .
+    restart: on-failure
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.tcp.routers.mspaint-000.rule=HostSNI(`mspaint-000.cbc2025.cloud`)"
+      - "traefik.tcp.routers.mspaint-000.tls=true"
+      - "traefik.tcp.services.mspaint-000.loadbalancer.server.port=9101"
+
+networks:
+  traefik:
+    external: true

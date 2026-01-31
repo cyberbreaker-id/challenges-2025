@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  feedback:
+    build: ./app
+    volumes:
+      - ./flag.txt:/flag.txt:ro
+    environment:
+      - FLASK_ENV=production
+      - FLASK_DEBUG=0
+    restart: unless-stopped
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.feedback.rule=Host(`feedback.cbc2025.cloud`)"
+      - "traefik.http.routers.feedback.tls=true"
+      - "traefik.http.services.feedback.loadbalancer.server.port=80"
+networks:
+  traefik:
+    external: true

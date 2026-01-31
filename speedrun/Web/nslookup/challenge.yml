@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/dimasma0305/ctfify/refs/heads/master/function/template/templates/others/ctf-template/.gzctf/challenge.schema.yaml
+
+name: "nslookup"
+author: "bl33dz"
+description: |
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{2d31761b0ad10eae1d1c33c694d7eea5}"
+
+provide: "./dist"
+
+scripts:
+    start: cd src && docker compose -p {{.slug}} up --build -d
+    stop: cd src && docker compose -p {{.slug}} down --volumes

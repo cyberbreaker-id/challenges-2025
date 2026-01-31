@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Javana Greeter</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+  <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-lg">
+    <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Javana Greeter</h2>
+
+    <form id="helloForm" class="flex flex-col gap-4">
+      <input name="input" placeholder="Enter your name..."
+        class="block w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      <button type="submit"
+        class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition-colors">
+        Say Hello
+      </button>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('helloForm');
+    const inputField = form.input;
+    const outWrap = document.getElementById('out');
+    const resp = document.getElementById('resp');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      try {
+        const r = await fetch("/hello?name=" + encodeURIComponent(inputField.value));
+        const j = await r.json();
+        Swal.fire({
+          toast: true,
+          icon: j.ok ? 'success' : 'error',
+          title: j.result,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true
+        });
+      } catch (err) {
+        Swal.fire({
+          toast: true,
+          icon: 'error',
+          title: 'Request failed',
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true
+        });
+      }
+    });
+  </script>
+</body>
+</html>
+

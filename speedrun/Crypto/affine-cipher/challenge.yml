@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/dimasma0305/ctfify/refs/heads/master/function/template/templates/others/ctf-template/.gzctf/challenge.schema.yaml
+
+name: "affine-cipher"
+author: "amseels"
+description: |
+
+type: "StaticAttachment"
+value: 1000
+
+flags:
+  - "CBC{L3ts_H4V1NG_fUN_w1tH_cL4SS1c_x1xiXi}"
+
+provide: "./dist"

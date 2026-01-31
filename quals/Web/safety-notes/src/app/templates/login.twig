@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes App - Login</title>
+    <link rel="stylesheet" href="{{ base_url }}/css/login.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome Back</h1>
+        
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+        
+        <form method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            <div class="form-group">
+                <input type="text" name="username" placeholder="Username" required>
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+        
+        <div class="link">
+            <a href="/register">Don't have an account? Register here</a>
+        </div>
+    </div>
+    
+    <script src="{{ base_url }}/js/login.js"></script>
+</body>
+</html>

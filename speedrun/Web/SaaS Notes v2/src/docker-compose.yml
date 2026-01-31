@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  saas_notes_v2_app:
+    container_name: saas_notes_v2_app
+    build: ./app
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.saas_notes_v2_app.rule=Host(`saas-notes-v2.cbc2025.cloud`)"
+      - "traefik.http.routers.saas_notes_v2_app.tls=true"
+      - "traefik.http.services.saas_notes_v2_app.loadbalancer.server.port=3001"
+networks:
+  traefik:
+    external: true

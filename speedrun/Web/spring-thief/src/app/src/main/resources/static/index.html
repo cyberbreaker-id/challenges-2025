@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Note App</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .auth-section, .notes-section { margin: 20px 0; padding: 20px; border: 1px solid #ddd; }
+        .hidden { display: none; }
+        input, textarea, button { margin: 5px; padding: 8px; }
+        button { background: #007bff; color: white; border: none; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .note { border: 1px solid #eee; margin: 10px 0; padding: 15px; }
+        .note-title { font-weight: bold; color: #333; }
+        .note-meta { color: #666; font-size: 0.9em; }
+        .error { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Note App</h1>
+        
+        <!-- Authentication Section -->
+        <div id="auth-section" class="auth-section">
+            <h2>Login / Register</h2>
+            <div>
+                <h3>Register</h3>
+                <input type="text" id="reg-username" placeholder="Username">
+                <input type="password" id="reg-password" placeholder="Password">
+                <button onclick="register()">Register</button>
+            </div>
+            <div>
+                <h3>Login</h3>
+                <input type="text" id="login-username" placeholder="Username">
+                <input type="password" id="login-password" placeholder="Password">
+                <button onclick="login()">Login</button>
+            </div>
+            <div id="auth-message"></div>
+        </div>
+
+        <!-- Notes Section -->
+        <div id="notes-section" class="notes-section hidden">
+            <h2>My Notes</h2>
+            <div>
+                <h3>Create Note</h3>
+                <input type="text" id="note-title" placeholder="Title">
+                <textarea id="note-content" placeholder="Content" rows="4" cols="50"></textarea>
+                <button onclick="createNote()">Create Note</button>
+            </div>
+            
+            <div>
+                <h3>Search Notes</h3>
+                <input type="text" id="search-title" placeholder="Search by title">
+                <input type="text" id="search-content" placeholder="Search by content">
+                <button onclick="searchNotes()">Search</button>
+                <div id="search-results"></div>
+            </div>
+            
+            <div>
+                <button onclick="loadNotes()">Refresh Notes</button>
+                <button onclick="logout()">Logout</button>
+            </div>
+            
+            <div id="notes-list"></div>
+            <div id="notes-message"></div>
+        </div>
+    </div>
+
+    <script>
+        let sessionId = null;
+        let currentUser = null;
+
+        function register() {
+            const username = document.getElementById('reg-username').value;
+            const password = document.getElementById('reg-password').value;
+            
+            fetch('/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `username=${username}&password=${password}`
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('auth-message').innerHTML = `<span class="success">${data}</span>`;
+            })
+            .catch(error => {
+                document.getElementById('auth-message').innerHTML = `<span class="error">Registration failed</span>`;
+            });
+        }
+
+        function login() {
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+            
+            fetch('/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `username=${username}&password=${password}`
+            })
+            .then(response => response.text())
+            .then(data => {
+                if (data.length > 20) {
+                    sessionId = data;
+                    currentUser = username;
+                    document.getElementById('auth-section').classList.add('hidden');
+                    document.getElementById('notes-section').classList.remove('hidden');
+                    loadNotes();
+                } else {
+                    document.getElementById('auth-message').innerHTML = `<span class="error">${data}</span>`;
+                }
+            })
+            .catch(error => {
+                document.getElementById('auth-message').innerHTML = `<span class="error">Login failed</span>`;
+            });
+        }
+
+        function logout() {
+            fetch('/logout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `sessionId=${sessionId}`
+            })
+            .then(() => {
+                sessionId = null;
+                currentUser = null;
+                document.getElementById('auth-section').classList.remove('hidden');
+                document.getElementById('notes-section').classList.add('hidden');
+                document.getElementById('auth-message').innerHTML = '';
+            });
+        }
+
+        function createNote() {
+            const title = document.getElementById('note-title').value;
+            const content = document.getElementById('note-content').value;
+            
+            fetch('/notes', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `title=${title}&content=${content}&sessionId=${sessionId}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('note-title').value = '';
+                document.getElementById('note-content').value = '';
+                document.getElementById('notes-message').innerHTML = '<span class="success">Note created!</span>';
+                loadNotes();
+            })
+            .catch(error => {
+                document.getElementById('notes-message').innerHTML = '<span class="error">Failed to create note</span>';
+            });
+        }
+
+        function loadNotes() {
+            fetch(`/notes?sessionId=${sessionId}`)
+            .then(response => response.json())
+            .then(notes => {
+                const notesList = document.getElementById('notes-list');
+                notesList.innerHTML = '<h3>Your Notes</h3>';
+                notes.forEach(note => {
+                    notesList.innerHTML += `
+                        <div class="note">
+                            <div class="note-title">${note.title}</div>
+                            <div>${note.content}</div>
+                            <div class="note-meta">Created: ${note.createdAt} | Updated: ${note.updatedAt}</div>
+                            <button onclick="deleteNote(${note.id})">Delete</button>
+                        </div>
+                    `;
+                });
+            });
+        }
+
+        function deleteNote(id) {
+            fetch(`/notes/${id}?sessionId=${sessionId}`, { method: 'DELETE' })
+            .then(() => {
+                document.getElementById('notes-message').innerHTML = '<span class="success">Note deleted!</span>';
+                loadNotes();
+            })
+            .catch(error => {
+                document.getElementById('notes-message').innerHTML = '<span class="error">Failed to delete note</span>';
+            });
+        }
+
+        function searchNotes() {
+            const title = document.getElementById('search-title').value;
+            const content = document.getElementById('search-content').value;
+            
+            fetch(`/search?title=${title}&content=${content}&sessionId=${sessionId}`)
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('search-results').innerHTML = `<div>${data}</div>`;
+            });
+        }
+    </script>
+</body>
+</html>
